@@ -71,8 +71,12 @@ const ReadmeGenerator: React.FC = () => {
     setError('');
     
     try {
-      // Sample fetch implementation for the backend endpoint
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_LINK}api/generate-readme`, {
+      // Build API URL safely: support optional VITE_BACKEND_LINK or fallback to Vite proxy
+      const backendBase = (import.meta as any).env?.VITE_BACKEND_LINK as string | undefined;
+      const apiUrl = backendBase
+        ? `${backendBase.replace(/\/+$/, '')}/api/generate-readme`
+        : '/api/generate-readme';
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
