@@ -71,11 +71,13 @@ const ReadmeGenerator: React.FC = () => {
     setError('');
     
     try {
-      // Build API URL safely: support optional VITE_BACKEND_LINK or fallback to Vite proxy
+      // Build API URL safely: in production (Vercel), always use same-origin serverless API
+      // In local dev, allow overriding with VITE_BACKEND_LINK (e.g., http://localhost:5000)
       const backendBase = (import.meta as any).env?.VITE_BACKEND_LINK as string | undefined;
-      const apiUrl = backendBase
-        ? `${backendBase.replace(/\/+$/, '')}/api/generate-readme`
-        : '/api/generate-readme';
+      const isBrowser = typeof window !== 'undefined';
+      const isLocalhost = isBrowser && /localhost|127\.0\.0\.1/.test(window.location.origin);
+      const base = isLocalhost && backendBase ? backendBase.replace(/\/+$/, '') : '';
+      const apiUrl = base ? `${base}/api/generate-readme` : '/api/generate-readme';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
