@@ -72,7 +72,7 @@ const ReadmeGenerator: React.FC = () => {
     
     try {
       // Sample fetch implementation for the backend endpoint
-      const response = await fetch('/api/generate-readme', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_LINK}/api/generate-readme`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
