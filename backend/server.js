@@ -289,6 +289,10 @@ Likely src/ layout (when applicable):
   }
 }
 
+
+app.get("/",(req,res)=>{
+  res.redirect(process.env.FRONTEND_URL);
+})
 // ================== API Endpoint ==================
 app.post("/api/generate-readme", async (req, res) => {
   try {
