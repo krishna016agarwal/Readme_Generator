@@ -12,8 +12,13 @@ app.use(bodyParser.json());
 //   origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173',"https://readme-generator-vhzg.vercel.app"],
 //   credentials: true
 // }));
-app.use(cors({ origin: true, credentials: true }));
-app.options("*", cors({ origin: true, credentials: true }));
+
+const corsOptions = {
+  origin: true, // reflects the request origin
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ✅ handles preflight requests
 
 
 const PORT = 5000;
